@@ -1,0 +1,56 @@
+Reading file...
+Successfully read info:
+File A:
+FileString: 1,123
+FileString: 2,234
+FileString: 3,345
+FileString: 4,456
+FileString: 54,adfa
+FileString: 982,adsjhfa
+FileString: 1,83274
+FileString: 4,654
+
+File B:
+FileString: 1,321
+FileString: 54,test
+FileString: 982,test2
+FileString: 1,777
+FileString: 3,333
+FileString: 3,334
+FileString: 4,444
+
+ArrayList result:
+1 123 321
+1 123 777
+1 83274 321
+1 83274 777
+3 345 333
+3 345 334
+4 456 444
+4 654 444
+54 adfa test
+982 adsjhfa test2
+
+LinkedList result:
+1 123 321
+1 123 777
+1 83274 321
+1 83274 777
+3 345 333
+3 345 334
+4 456 444
+4 654 444
+54 adfa test
+982 adsjhfa test2
+
+HashMap result:
+1 123 321
+1 123 777
+1 83274 321
+1 83274 777
+3 345 333
+3 345 334
+4 456 444
+4 654 444
+54 adfa test
+982 adsjhfa test2
