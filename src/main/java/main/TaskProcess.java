@@ -47,13 +47,11 @@ public class TaskProcess {
         for (int i = 0; i < fileAAL.size(); i++) {
             FileString fs = fileAAL.get(i);
             if (fileBAL.contains(fs) && fileAAL.indexOf(fs) == i) {
-                List<FileString> fileAtemp = new ArrayList<>(fileAAL);
-                fileAtemp.retainAll(Collections.singleton(fs));
-                List<FileString> fileBtemp = new ArrayList<>(fileBAL);
-                fileBtemp.retainAll(Collections.singleton(fs));
-                for (FileString fsATemp : fileAtemp) {
-                    for (FileString fsBTemp : fileBtemp) {
-                        bw.write(fsATemp.getId() + " " + fsATemp.getValue() + " " + fsBTemp.getValue() + '\n');
+                for (int j = i; j < fileAAL.size(); j++) {
+                    for (FileString aFileBAL : fileBAL) {
+                        if (fs.equals(fileAAL.get(j)) && fs.equals(aFileBAL)) {
+                            bw.write(fs.getId() + " " + fileAAL.get(j).getValue() + " " + aFileBAL.getValue() + '\n');
+                        }
                     }
                 }
             }
@@ -65,6 +63,8 @@ public class TaskProcess {
             for (FileString fsB : fileBLL) {
                 if (fsA.equals(fsB)) {
                     bw.write(fsA.getId() + " " + fsA.getValue() + " " + fsB.getValue() + '\n');
+                } else if (fsB.getId() > fsA.getId()) {
+                    break;
                 }
             }
         }
@@ -89,6 +89,7 @@ public class TaskProcess {
                 String[] stringParts = temp.split(",");
                 Integer id = parseId(stringParts[ID_PART]);
                 if (stringParts.length != STRING_PARTS_NUM || id == null) {
+                    bw.write("[ERROR] Failed to parse line: " + temp + "\n");
                     continue;
                 }
 
@@ -121,14 +122,13 @@ public class TaskProcess {
         try {
             res = Integer.parseInt(str);
         } catch (NumberFormatException e) {
-            bw.write("[ERROR] Failed to parse line: " + temp + "\n");
+            // nothing to do here
         }
         return res;
     }
 
     class BufferedWriterWrap {
         private BufferedWriter bw;
-
         public BufferedWriterWrap(String filename) {
             try {
                 bw = new BufferedWriter(new FileWriter(filename));
