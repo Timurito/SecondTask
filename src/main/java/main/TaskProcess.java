@@ -67,7 +67,6 @@ public class TaskProcess {
         FileString fileStringA = iteratorA.next();
         while (true) {
             if (fileStringA.equals(fileStringB)) {
-                // вывод
                 bufferedWriter.write(fileStringA.getId() + " " + fileStringA.getValue() + " "
                             + fileStringB.getValue() + '\n');
                 if (!iteratorA.hasNext()) {
@@ -77,7 +76,9 @@ public class TaskProcess {
                         fileStringB = iteratorB.previous();
                         iteratorB.next();
                     } else {
-                        break; // итераторА закончился, итераторБ не закончился, но следующий элемент в итераторБ не равен элементу в итераторА
+                        // итераторА закончился, итераторБ не закончился,
+                        // но следующий элемент в итераторБ не равен текущему элементу в итераторБ
+                        break;
                     }
                 } else if (!iteratorB.hasNext()) {
                     if (fileStringA.equals(iteratorA.next())) {
@@ -86,7 +87,9 @@ public class TaskProcess {
                         iteratorB = linkedListB.listIterator(indexB);
                         fileStringB = iteratorB.next();
                     } else {
-                        break; // итераторА не закончился, но итераторБ закончился
+                        // итераторА не закончился, итераторБ закончился,
+                        // но следующий элемент в итераторА не равен элементу в итераторА
+                        break;
                     }
                 } else if (fileStringB.equals(iteratorB.next())) {
                     fileStringB = iteratorB.previous();
@@ -102,9 +105,6 @@ public class TaskProcess {
                     iteratorA.next();
                     fileStringB = iteratorB.previous();
                     iteratorB.next();
-//                    fileStringA = iteratorA.previous();
-//                    iteratorA.next();
-
                 }
                 // else УСЛОВИЕ НЕРАВЕНСТВА ОБЪЕКТОВ
                 // пока не буду добавлять условие на проверку конца итераторов, потому что кажется оно будет лишним
@@ -114,33 +114,6 @@ public class TaskProcess {
                 fileStringB = iteratorB.next();
             }
         }
-
-
-//        if (iteratorA.hasNext()) {
-//            iteratorB.in
-//            FileString fileStringA = iteratorA.next();
-//            while (iteratorA.hasNext() || iteratorB.hasNext()) {
-//                FileString fileStringB = iteratorB.next();
-//                if (fileStringA.equals(fileStringB)) {
-//                    bufferedWriter.write(fileStringA.getId() + " " + fileStringA.getValue() + " "
-//                            + fileStringB.getValue() + '\n');
-//                } else {
-//                    if (fileStringA.getId() < fileStringB.getId()) {
-//                        iteratorB.previous();
-//                        if (fileStringA.equals(iteratorA.next())) {
-//                            while (iteratorB.hasPrevious() && iteratorB.previous().equals(fileStringA)) {
-////                                System.out.println();
-//                            }
-//                            if (iteratorB.hasPrevious()) {
-//                                iteratorB.next();
-//                            }
-//                        }
-//                        fileStringA = iteratorA.previous();
-//                        iteratorA.next();
-//                    }
-//                }
-//            }
-//        }
     }
 
     private void processDataMap() {
