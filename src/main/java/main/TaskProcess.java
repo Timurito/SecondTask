@@ -59,32 +59,88 @@ public class TaskProcess {
     }
 
     private void processDataLinkedList() {
+        // подумать над условием отсутствия элементов в листах (возможно ли такое вообще и надо ли проверять?)
         ListIterator<FileString> iteratorA = linkedListA.listIterator();
         ListIterator<FileString> iteratorB = linkedListB.listIterator();
-        while (iteratorA.hasNext()) {
-            FileString fileStringA = iteratorA.next();
-            while (iteratorB.hasNext()) {
-                FileString fileStringB = iteratorB.next();
-                if (fileStringA.equals(fileStringB)) {
-                    bufferedWriter.write(fileStringA.getId() + " " + fileStringA.getValue() + " "
+        int indexB = iteratorB.nextIndex();
+        FileString fileStringB = iteratorB.next();
+        FileString fileStringA = iteratorA.next();
+        while (true) {
+            if (fileStringA.equals(fileStringB)) {
+                // вывод
+                bufferedWriter.write(fileStringA.getId() + " " + fileStringA.getValue() + " "
                             + fileStringB.getValue() + '\n');
-                } else {
-                    if (fileStringA.getId() < fileStringB.getId()) {
-                        iteratorB.previous();
-                        if (fileStringA.equals(iteratorA.next())) {
-                            while (iteratorB.hasPrevious() && iteratorB.previous().equals(fileStringA)) {
-//                                System.out.println();
-                            }
-                            if (iteratorB.hasPrevious()) {
-                                iteratorB.next();
-                            }
-                        }
+                if (!iteratorA.hasNext()) {
+                    if (!iteratorB.hasNext()) {
+                        break; // прошлись до конца в обоих итераторах
+                    } else if (fileStringB.equals(iteratorB.next())) {
+                        fileStringB = iteratorB.previous();
+                        iteratorB.next();
+                    } else {
+                        break; // итераторА закончился, итераторБ не закончился, но следующий элемент в итераторБ не равен элементу в итераторА
+                    }
+                } else if (!iteratorB.hasNext()) {
+                    if (fileStringA.equals(iteratorA.next())) {
                         fileStringA = iteratorA.previous();
                         iteratorA.next();
+                        iteratorB = linkedListB.listIterator(indexB);
+                        fileStringB = iteratorB.next();
+                    } else {
+                        break; // итераторА не закончился, но итераторБ закончился
                     }
+                } else if (fileStringB.equals(iteratorB.next())) {
+                    fileStringB = iteratorB.previous();
+                    iteratorB.next();
+                } else if (fileStringA.equals(iteratorA.next())) {
+                    fileStringA = iteratorA.previous();
+                    iteratorA.next();
+                    iteratorB = linkedListB.listIterator(indexB);
+                    fileStringB = iteratorB.next();
+                } else {
+                    indexB = iteratorB.previousIndex();
+                    fileStringA = iteratorA.previous();
+                    iteratorA.next();
+                    fileStringB = iteratorB.previous();
+                    iteratorB.next();
+//                    fileStringA = iteratorA.previous();
+//                    iteratorA.next();
+
                 }
+                // else УСЛОВИЕ НЕРАВЕНСТВА ОБЪЕКТОВ
+                // пока не буду добавлять условие на проверку конца итераторов, потому что кажется оно будет лишним
+            } else if (fileStringA.getId() < fileStringB.getId()) {
+                fileStringA = iteratorA.next();
+            } else {
+                fileStringB = iteratorB.next();
             }
         }
+
+
+//        if (iteratorA.hasNext()) {
+//            iteratorB.in
+//            FileString fileStringA = iteratorA.next();
+//            while (iteratorA.hasNext() || iteratorB.hasNext()) {
+//                FileString fileStringB = iteratorB.next();
+//                if (fileStringA.equals(fileStringB)) {
+//                    bufferedWriter.write(fileStringA.getId() + " " + fileStringA.getValue() + " "
+//                            + fileStringB.getValue() + '\n');
+//                } else {
+//                    if (fileStringA.getId() < fileStringB.getId()) {
+//                        iteratorB.previous();
+//                        if (fileStringA.equals(iteratorA.next())) {
+//                            while (iteratorB.hasPrevious() && iteratorB.previous().equals(fileStringA)) {
+////                                System.out.println();
+//                            }
+//                            if (iteratorB.hasPrevious()) {
+//                                iteratorB.next();
+//                            }
+//                        }
+//                        fileStringA = iteratorA.previous();
+//                        iteratorA.next();
+//                    }
+//                }
+//            }
+//        }
     }
 
     private void processDataMap() {
@@ -145,6 +201,7 @@ public class TaskProcess {
 
     class BufferedWriterWrap {
         private BufferedWriter bufferedWriter;
+
         public BufferedWriterWrap(String filename) {
             try {
                 bufferedWriter = new BufferedWriter(new FileWriter(filename));
