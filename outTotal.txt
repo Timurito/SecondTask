@@ -2,7 +2,8 @@ Reading file...
 [ERROR] Failed to parse line: 123,adf,adsf
 Successfully read info:
 File A:
-FileString: 1,123
+FileString: 1,111
+FileString: 1,112
 FileString: 2,234
 FileString: 3,345
 FileString: 4,456
@@ -10,6 +11,7 @@ FileString: 54,adfa
 FileString: 982,adsjhfa
 FileString: -1,83274
 FileString: 4,654
+FileString: 2,test2
 
 File B:
 FileString: 1,321
@@ -19,33 +21,53 @@ FileString: 1,777
 FileString: 3,333
 FileString: 3,334
 FileString: 4,444
+FileString: 4,445
+FileString: 2,test
 
 ArrayList result:
-1 123 321
-1 123 777
+1 111 321
+1 111 777
+1 112 321
+1 112 777
+2 234 test
+2 test2 test
 3 345 333
 3 345 334
 4 456 444
+4 456 445
 4 654 444
+4 654 445
 54 adfa test
 982 adsjhfa test2
 
 LinkedList result:
-1 123 321
-1 123 777
+1 111 321
+1 111 777
+1 112 321
+1 112 777
+2 234 test
+2 test2 test
 3 345 333
 3 345 334
 4 456 444
+4 456 445
 4 654 444
+4 654 445
 54 adfa test
 982 adsjhfa test2
 
 HashMap result:
-1 123 321
-1 123 777
+1 111 321
+1 111 777
+1 112 321
+1 112 777
+2 234 test
+2 test2 test
 3 345 333
 3 345 334
 4 456 444
+4 456 445
 4 654 444
+4 654 445
 54 adfa test
 982 adsjhfa test2

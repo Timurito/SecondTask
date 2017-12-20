@@ -59,12 +59,28 @@ public class TaskProcess {
     }
 
     private void processDataLinkedList() {
-        for (FileString fsA : fileALL) {
-            for (FileString fsB : fileBLL) {
+        ListIterator<FileString> itA = fileALL.listIterator();
+        ListIterator<FileString> itB = fileBLL.listIterator();
+        while (itA.hasNext()) {
+            FileString fsA = itA.next();
+            while (itB.hasNext()) {
+                FileString fsB = itB.next();
                 if (fsA.equals(fsB)) {
                     bw.write(fsA.getId() + " " + fsA.getValue() + " " + fsB.getValue() + '\n');
-                } else if (fsB.getId() > fsA.getId()) {
-                    break;
+                } else {
+                    if (fsA.getId() < fsB.getId()) {
+                        itB.previous();
+                        if (fsA.equals(itA.next())) {
+                            while (itB.hasPrevious() && itB.previous().equals(fsA)) {
+//                                System.out.println();
+                            }
+                            if (itB.hasPrevious()) {
+                                itB.next();
+                            }
+                        }
+                        fsA = itA.previous();
+                        itA.next();
+                    }
                 }
             }
         }
