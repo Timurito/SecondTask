@@ -45,12 +45,12 @@ public class TaskProcess {
 
     private void processDataArrayList() {
         for (int i = 0; i < arrayListA.size(); i++) {
-            FileString fs = arrayListA.get(i);
-            if (arrayListB.contains(fs) && arrayListA.indexOf(fs) == i) {
+            FileString fileStringA = arrayListA.get(i);
+            if (arrayListB.contains(fileStringA) && arrayListA.indexOf(fileStringA) == i) {
                 for (int j = i; j < arrayListA.size(); j++) {
-                    for (FileString aFileBAL : arrayListB) {
-                        if (fs.equals(arrayListA.get(j)) && fs.equals(aFileBAL)) {
-                            bufferedWriter.write(fs.getId() + " " + arrayListA.get(j).getValue() + " " + aFileBAL.getValue() + '\n');
+                    for (FileString fileStringB : arrayListB) {
+                        if (fileStringA.equals(arrayListA.get(j)) && fileStringA.equals(fileStringB)) {
+                            bufferedWriter.write(fileStringA.getId() + " " + arrayListA.get(j).getValue() + " " + fileStringB.getValue() + '\n');
                         }
                     }
                 }
@@ -59,27 +59,28 @@ public class TaskProcess {
     }
 
     private void processDataLinkedList() {
-        ListIterator<FileString> itA = linkedListA.listIterator();
-        ListIterator<FileString> itB = linkedListB.listIterator();
-        while (itA.hasNext()) {
-            FileString fsA = itA.next();
-            while (itB.hasNext()) {
-                FileString fsB = itB.next();
-                if (fsA.equals(fsB)) {
-                    bufferedWriter.write(fsA.getId() + " " + fsA.getValue() + " " + fsB.getValue() + '\n');
+        ListIterator<FileString> iteratorA = linkedListA.listIterator();
+        ListIterator<FileString> iteratorB = linkedListB.listIterator();
+        while (iteratorA.hasNext()) {
+            FileString fileStringA = iteratorA.next();
+            while (iteratorB.hasNext()) {
+                FileString fileStringB = iteratorB.next();
+                if (fileStringA.equals(fileStringB)) {
+                    bufferedWriter.write(fileStringA.getId() + " " + fileStringA.getValue() + " "
+                            + fileStringB.getValue() + '\n');
                 } else {
-                    if (fsA.getId() < fsB.getId()) {
-                        itB.previous();
-                        if (fsA.equals(itA.next())) {
-                            while (itB.hasPrevious() && itB.previous().equals(fsA)) {
+                    if (fileStringA.getId() < fileStringB.getId()) {
+                        iteratorB.previous();
+                        if (fileStringA.equals(iteratorA.next())) {
+                            while (iteratorB.hasPrevious() && iteratorB.previous().equals(fileStringA)) {
 //                                System.out.println();
                             }
-                            if (itB.hasPrevious()) {
-                                itB.next();
+                            if (iteratorB.hasPrevious()) {
+                                iteratorB.next();
                             }
                         }
-                        fsA = itA.previous();
-                        itA.next();
+                        fileStringA = iteratorA.previous();
+                        iteratorA.next();
                     }
                 }
             }
@@ -87,11 +88,11 @@ public class TaskProcess {
     }
 
     private void processDataMap() {
-        for (Integer iA : hashMapA.keySet()) {
-            if (hashMapB.containsKey(iA)) {
-                for (String sA : hashMapA.get(iA)) {
-                    for (String sB : hashMapB.get(iA)) {
-                        bufferedWriter.write(iA + " " + sA + " " + sB + '\n');
+        for (Integer idA : hashMapA.keySet()) {
+            if (hashMapB.containsKey(idA)) {
+                for (String valueA : hashMapA.get(idA)) {
+                    for (String valueB : hashMapB.get(idA)) {
+                        bufferedWriter.write(idA + " " + valueA + " " + valueB + '\n');
                     }
                 }
             }
