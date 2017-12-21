@@ -59,7 +59,10 @@ public class TaskProcess {
     }
 
     private void processDataLinkedList() {
-        // подумать над условием отсутствия элементов в листах (возможно ли такое вообще и надо ли проверять?)
+        // возможно эта проверка не нужна
+        if (linkedListA.size() == 0 || linkedListB.size() == 0) {
+            return;
+        }
         ListIterator<FileString> iteratorA = linkedListA.listIterator();
         ListIterator<FileString> iteratorB = linkedListB.listIterator();
         int indexB = iteratorB.nextIndex();
@@ -88,7 +91,7 @@ public class TaskProcess {
                         fileStringB = iteratorB.next();
                     } else {
                         // итераторА не закончился, итераторБ закончился,
-                        // но следующий элемент в итераторА не равен элементу в итераторА
+                        // но следующий элемент в итераторА не равен текущему элементу в итераторА
                         break;
                     }
                 } else if (fileStringB.equals(iteratorB.next())) {
@@ -106,12 +109,19 @@ public class TaskProcess {
                     fileStringB = iteratorB.previous();
                     iteratorB.next();
                 }
-                // else УСЛОВИЕ НЕРАВЕНСТВА ОБЪЕКТОВ
-                // пока не буду добавлять условие на проверку конца итераторов, потому что кажется оно будет лишним
+                // else id не равны
             } else if (fileStringA.getId() < fileStringB.getId()) {
-                fileStringA = iteratorA.next();
+                if (iteratorA.hasNext()) {
+                    fileStringA = iteratorA.next();
+                } else {
+                    break;
+                }
             } else {
-                fileStringB = iteratorB.next();
+                if (iteratorB.hasNext()) {
+                    fileStringB = iteratorB.next();
+                } else {
+                    break;
+                }
             }
         }
     }
